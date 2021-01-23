@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AppNavigation from './src/navigations/AppNavigation';
-import LoadingScreen from './src/screens/LoadingScreen';
+import LoadingScreen from './src/screens/app/LoadingScreen';
 
 const App = () => {
 

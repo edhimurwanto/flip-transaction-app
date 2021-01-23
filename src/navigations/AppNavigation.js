@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/app/HomeScreen';
 import OnboardingScreen from '../screens/app/OnboardingScreen';
 import TransactionScreen from '../screens/transactions/TransactionScreen';
+import MyHeader from '../components/MyHeader';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ const AppNavigation = () => (
                 options={{
                     title: 'Home',
                     headerLeft: null
+                    // header: () => <MyHeader title='Home'/>
                 }}
             />
             <Stack.Screen
