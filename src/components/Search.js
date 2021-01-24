@@ -6,8 +6,7 @@ import Feather from 'react-native-vector-icons/Feather'
 
 const width = Dimensions.get('window').width
 
-const Search = ({ handleSearchInput }) => {
-
+const Search = ({ handleSearchInput, handleSort }) => {
 
     return (
         <View style={styles.container}>
@@ -19,6 +18,7 @@ const Search = ({ handleSearchInput }) => {
             />
             <TouchableOpacity
                 style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 12, backgroundColor: 'white', borderRadius: 4, }}
+                onPress={handleSort}
             >
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Text style={{ color: 'orange', fontSize: 16 }}>{toUpper("Urutkan ")}</Text>

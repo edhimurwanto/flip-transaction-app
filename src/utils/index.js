@@ -42,4 +42,64 @@ const flagColor = (status) => {
     return color;
 }
 
-export { formatIDR, toUpper, formatDate, formatBankName, flagColor, toPascalCase };
+const sortTrx = (data, type) => {
+    if (type == 'asc') {
+        return data.sort((a, b) => {
+            var nameA = a.beneficiary_name.toUpperCase(); // ignore upper and lowercase
+            var nameB = b.beneficiary_name.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+
+            // names must be equal
+            return 0;
+        })
+    } else if (type == 'desc') {
+        return data.sort((a, b) => {
+            var nameA = a.beneficiary_name.toUpperCase(); // ignore upper and lowercase
+            var nameB = b.beneficiary_name.toUpperCase(); // ignore upper and lowercase
+            if (nameA > nameB) {
+                return -1;
+            }
+            if (nameA < nameB) {
+                return 1;
+            }
+
+            // names must be equal
+            return 0;
+        })
+    } else if (type == 'latest') {
+        return data.sort((a, b) => {
+            var dateA = a.created_at;
+            var dateB = b.created_at;
+            if (dateA > dateB) {
+                return -1;
+            }
+            if (dateA < dateB) {
+                return 1;
+            }
+
+            return 0;
+        })
+    } else if (type == 'older') {
+        return data.sort((a, b) => {
+            var dateA = a.created_at;
+            var dateB = b.created_at;
+            if (dateA < dateB) {
+                return -1;
+            }
+            if (dateA > dateB) {
+                return 1;
+            }
+
+            return 0;
+        })
+    } else {
+        return data;
+    }
+}
+
+export { formatIDR, toUpper, formatDate, formatBankName, flagColor, toPascalCase, sortTrx };

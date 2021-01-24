@@ -1,28 +1,33 @@
 import React from 'react';
 import { View, Text } from "react-native";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { toPascalCase } from '../utils';
 import { TransactionStatus } from '../utils/constants';
 
-const MyButton = ({ label, color }) => {
+const MyButton = ({ label, color, borderWidth, textClr, onClick }) => {
 
-    const textLabel = label === TransactionStatus.SUCCESS ? toPascalCase("Berhasil") : label === TransactionStatus.PENDING ? toPascalCase("Pengecekan") : toPascalCase("Gagal")
+    const textLabel = label === TransactionStatus.SUCCESS ? toPascalCase("Berhasil") : label === TransactionStatus.PENDING ? toPascalCase("Pengecekan") : label === TransactionStatus.FAILED ? toPascalCase("Gagal") : label;
+    const bgColor = label === TransactionStatus.SUCCESS ? 'green' : null;
+    const textColor = textClr ? textClr : label === TransactionStatus.SUCCESS ? 'white' : 'black';
 
     return (
-        <View style={{
-            height: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderWidth: 1,
-            borderColor: color,
-            borderRadius: 4,
-            paddingHorizontal: 8,
-            backgroundColor: label === TransactionStatus.SUCCESS ? 'green' : null,
-        }}>
-            <Text style={{
-                fontWeight: 'bold',
-                color: label === TransactionStatus.SUCCESS ? 'white' : 'black',
-            }}>{textLabel}</Text>
-        </View>
+        <TouchableOpacity onPress={onClick}>
+            <View style={{
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderWidth: borderWidth,
+                borderColor: color,
+                borderRadius: 4,
+                paddingHorizontal: 8,
+                backgroundColor: bgColor
+            }}>
+                <Text style={{
+                    fontWeight: 'bold',
+                    color: textColor
+                }}>{textLabel}</Text>
+            </View>
+        </TouchableOpacity>
     )
 }
 

@@ -1,17 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { formatIDR, toUpper, formatDate, formatBankName, flagColor, toPascalCase } from '../../utils';
+import { formatIDR, toUpper, formatDate, formatBankName, flagColor } from '../../utils';
 import Feather from 'react-native-vector-icons/Feather';
 import Octicons from 'react-native-vector-icons/Octicons'
 import MyButton from '../../components/MyButton';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const CardTransaction = (props) => {
 
     const { data } = props;
-    const amount = data.amount ? formatIDR(`${data.amount}`, "Rp") : 0
+    const amount = data.amount ? formatIDR(`${data.amount}`, "Rp") : 0;
+
+    const onCardPressed = () => {
+        props.navigation.navigate('DetailTransaction', { data });
+    }
 
     return (
-        <View style={styles.container} key={data.id + data.account_number}>
+        <TouchableOpacity style={styles.container} key={data.id + data.account_number}
+            onPress={onCardPressed}
+        >
             <View style={[styles.trxCardColor, { backgroundColor: flagColor(data.status) }]}></View>
             <View style={styles.dataContainer}>
                 <View style={styles.inlineText}>
@@ -27,9 +34,9 @@ const CardTransaction = (props) => {
                 </View>
             </View>
             <View style={{ flex: 2, justifyContent: 'center', alignItems: 'flex-end', marginEnd: 15 }}>
-                <MyButton label={data.status} color={flagColor(data.status)} />
+                <MyButton label={data.status} color={flagColor(data.status)} borderWidth={1} onClick={onCardPressed} />
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
@@ -42,7 +49,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         borderRadius: 8,
-        marginBottom: 12
+        marginBottom: 8
     },
     trxCardColor: {
         height: 124,
@@ -66,5 +73,6 @@ const styles = StyleSheet.create({
     },
     textName: {
         fontSize: 16,
+        fontWeight: '900'
     }
 })

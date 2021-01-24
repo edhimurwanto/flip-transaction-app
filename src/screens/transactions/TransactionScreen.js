@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, FlatList } from 'react-native';
+import { SafeAreaView, StyleSheet, FlatList, Modal, View } from 'react-native';
+import RadioButton from '../../components/RadioButton';
 import Search from '../../components/Search';
 import CardTransaction from './CardTransactions';
 import { getTransactions } from './TransactionService';
+import { sortTrx } from '../../utils';
+import { sortList } from '../../utils/constants'
 
-const TransactionScreen = () => {
+const TransactionScreen = (props) => {
 
     const [transactions, setTransactions] = useState([]);
     const [text, setText] = useState("");
+    const [modalVisible, setModalVisible] = useState(false);
+    const [sortBy, setSortBy] = useState(sortList);
 
     const handleSearchInput = (text) => {
         if (!text) {
@@ -15,6 +20,26 @@ const TransactionScreen = () => {
         } else {
             setText(text);
         }
+    }
+
+    const handleModalVisible = () => {
+        setModalVisible(!modalVisible);
+    }
+
+    const handleSelectedSort = (item) => {
+        const newSortOrder = sortBy.map(sort => {
+            if (sort.label == item.label) {
+                sort.isActive = true
+            } else {
+                sort.isActive = false
+            }
+            return sort;
+        })
+        setSortBy(newSortOrder);
+        const sorted = sortTrx(transactions, item.desc);
+        setTransactions(sorted)
+        setModalVisible(false);
+
     }
 
     const fetchData = () => {
@@ -28,23 +53,47 @@ const TransactionScreen = () => {
 
     useEffect(() => {
         fetchData();
-    }, [text])
+    }, [text, sortBy]);
 
-    const renderItem = ({ item }) => <CardTransaction data={item} />
+    const renderItem = ({ item }) => <CardTransaction data={item} navigation={props.navigation} />
 
     const newTrx = text == "" ? transactions : transactions.filter(item => {
-        return item.sender_bank.includes(text) || `${item.amount}`.includes(text) || `${item.beneficiary_bank}`.toLowerCase().includes(text) || `${item.beneficiary_name}`.toLowerCase().includes(text)
+        return item.sender_bank.includes(text) || `${item.amount}`.includes(text) ||
+            `${item.beneficiary_bank}`.toLowerCase().includes(text) ||
+            `${item.beneficiary_name}`.toLowerCase().includes(text)
     })
 
     return (
         <SafeAreaView style={styles.container}>
-            <Search handleSearchInput={handleSearchInput} />
+            <Search
+                handleSearchInput={handleSearchInput}
+                handleSort={handleModalVisible} />
             <FlatList
                 data={newTrx}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
                 style={{ padding: 10 }}
             />
+
+            <Modal
+                visible={modalVisible}
+                onDismiss={handleModalVisible}
+                transparent={true}
+                onRequestClose={handleModalVisible}
+                onMagicTap={handleModalVisible}
+                animationType={'fade'}
+            >
+                <View style={styles.modal}>
+                    <View style={styles.modalContainer}>
+                        <RadioButton
+                            data={sortBy}
+                            styles={{ paddingVertical: 16 }}
+                            selectedColor='orange'
+                            unselectedColor='white'
+                            handleSelectedSort={handleSelectedSort} />
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaView>
     );
 }
@@ -59,5 +108,17 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center'
-    }
+    },
+    modal: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)'
+    },
+    modalContainer: {
+        height: 360,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 30, backgroundColor: 'white',
+        borderRadius: 4
+    },
 })
