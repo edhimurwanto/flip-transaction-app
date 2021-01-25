@@ -26,6 +26,8 @@ npm run android
 
 #### iOS
 
+To run on iOS simulator please checkout to branch dev/ios
+
 ```
 cd ios && pod install
 
