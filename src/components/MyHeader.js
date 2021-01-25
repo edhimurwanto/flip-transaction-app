@@ -17,16 +17,15 @@ export default MyHeader;
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        height: 56,
+        height: 86,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
         borderColor: '#ddd',
         borderBottomWidth: 0,
+        backgroundColor: 'white',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
         elevation: 1,
     },
     title: {

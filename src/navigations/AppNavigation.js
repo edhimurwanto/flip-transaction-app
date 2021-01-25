@@ -38,7 +38,6 @@ const HomeBottomTabs = () => (
             options={{
                 tabBarLabel: 'Transactions',
                 tabBarIcon: ({ color }) => <TabIcon name="activity" color={color} size={24} />,
-                tabBarVisible: false
             }}
         />
     </Tab.Navigator>

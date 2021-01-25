@@ -73,6 +73,5 @@ const styles = StyleSheet.create({
     },
     textName: {
         fontSize: 16,
-        fontWeight: '900'
     }
 })

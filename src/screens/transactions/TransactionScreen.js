@@ -16,6 +16,7 @@ const TransactionScreen = (props) => {
     const [sortBy, setSortBy] = useState(sortList);
 
     const handleSearchInput = (text) => {
+        console.log(text);
         if (!text) {
             setText("");
         } else {
@@ -59,9 +60,10 @@ const TransactionScreen = (props) => {
     const renderItem = ({ item }) => <CardTransaction data={item} navigation={props.navigation} />
 
     const newTrx = text == "" ? transactions : transactions.filter(item => {
-        return item.sender_bank.includes(text) || `${item.amount}`.includes(text) ||
-            `${item.beneficiary_bank}`.toLowerCase().includes(text) ||
-            `${item.beneficiary_name}`.toLowerCase().includes(text)
+        const newText = text.toLowerCase();
+        return `${item.sender_bank}`.toLowerCase().includes(newText) || `${item.amount}`.includes(newText) ||
+            `${item.beneficiary_bank}`.toLowerCase().includes(newText) ||
+            `${item.beneficiary_name}`.toLowerCase().includes(newText)
     })
 
     return (
