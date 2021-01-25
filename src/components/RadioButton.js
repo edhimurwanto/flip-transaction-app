@@ -9,11 +9,11 @@ const RadioButton = ({ data, handleSelectedSort, styles, selectedColor, unselect
     }
 
     return (
-        <View style={{ ...styles }} key={data.id} >
+        <View style={{ ...styles }} >
 
             {
                 data.map(item => (
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }} key={item.label}>
                         <View style={{ justifyContent: 'center', alignItems: 'center', height: 32, width: 32, borderRadius: 25, backgroundColor: 'orange' }}>
                             <View style={{ justifyContent: 'center', alignItems: 'center', height: 24, width: 24, borderRadius: 25, backgroundColor: 'white' }}>
                                 <Entypo

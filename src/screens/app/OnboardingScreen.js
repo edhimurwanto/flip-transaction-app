@@ -1,51 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { Button, SafeAreaView, StyleSheet, Text } from 'react-native';
+import React from 'react';
+import { Dimensions, SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import LoadingScreen from './LoadingScreen';
 
-const OnboardingScreen = (props) => {
-
-    const [loading, setLoading] = useState(true)
-
-    const initUi = async () => {
-        try {
-            const value = await AsyncStorage.getItem('GetStarted')
-            if (value !== null) {
-                props.navigation.push('Home');
-            } else {
-                setLoading(false);
-            }
-        } catch (e) {
-            console.log('Get data from storage failed.');
-        }
-    }
+const OnboardingScreen = ({ onStartBtnClicked }) => {
 
     const onGetStartedClicked = async () => {
         try {
             await AsyncStorage.setItem('GetStarted', "true");
-            props.navigation.push('Home');
+            onStartBtnClicked();
         } catch (e) {
             console.log('Saving to storage failed.');
         }
     }
 
-    useEffect(() => {
-        initUi()
-    }, [])
-
     return (
-        <>
-            {
-                loading ? <LoadingScreen /> :
-                    <SafeAreaView style={styles.container}>
-                        <Text>Welcome</Text>
-                        <Button
-                            title='Mulai'
-                            onPress={onGetStartedClicked}
-                        />
-                    </SafeAreaView>
-            }
-        </>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>Welcome to</Text>
+                <Text style={styles.title}>Flip Transactions App</Text>
+            </View>
+            <View style={styles.btnContainer}>
+                <TouchableOpacity
+                    style={styles.startButton}
+                    onPress={onGetStartedClicked}>
+                    <Text style={styles.btnLabel}>Next</Text>
+                </TouchableOpacity>
+            </View>
+        </SafeAreaView>
     );
 }
 
@@ -56,9 +37,33 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
-    loadingText: {
-        fontSize: 16,
+    title: {
+        fontSize: 24,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'grey'
+    },
+    btnLabel: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: 'white'
+    },
+    titleContainer: {
+        flex: 2,
+        justifyContent: 'flex-end'
+    },
+    btnContainer: {
+        flex: 3,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    startButton: {
+        height: 66,
+        fontSize: 24,
+        backgroundColor: 'green',
+        width: Dimensions.get('window').width / 3,
+        borderRadius: 8,
+        justifyContent: 'center'
     }
 })

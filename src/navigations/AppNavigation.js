@@ -2,33 +2,58 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/app/HomeScreen';
-import OnboardingScreen from '../screens/app/OnboardingScreen';
 import TransactionScreen from '../screens/transactions/TransactionScreen';
-import MyHeader from '../components/MyHeader';
+import DetailTransactionScreen from '../screens/transactions/DetailTransaction';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import TabIcon from 'react-native-vector-icons/Feather';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const HomeBottomTabs = () => (
+    <Tab.Navigator
+        tabBarOptions={{
+            activeTintColor: 'green',
+            allowFontScaling: true,
+            labelStyle: {
+                marginBottom: 4,
+                fontSize: 11
+            },
+            iconStyle: {
+                marginTop: 4
+            }
+        }}
+    >
+        <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+                tabBarLabel: 'Home',
+                tabBarIcon: ({ color }) => <TabIcon name="home" color={color} size={24} />
+            }}
+        />
+        <Tab.Screen
+            name="Transactions"
+            component={TransactionScreen}
+            options={{
+                tabBarLabel: 'Transactions',
+                tabBarIcon: ({ color }) => <TabIcon name="activity" color={color} size={24} />,
+                tabBarVisible: false
+            }}
+        />
+    </Tab.Navigator>
+)
 
 const AppNavigation = () => (
     <NavigationContainer>
         <Stack.Navigator
-            initialRouteName="Onboarding"
-            headerMode="screen"
+            initialRouteName="Flip Transactions"
         >
             <Stack.Screen
-                name="Onboarding"
-                component={OnboardingScreen}
-                options={{
-                    title: 'Awesome app',
-                    headerShown: false
-                }}
-            />
-            <Stack.Screen
                 name="Home"
-                component={HomeScreen}
+                component={HomeBottomTabs}
                 options={{
-                    title: 'Home',
-                    headerLeft: null
-                    // header: () => <MyHeader title='Home'/>
+                    headerShown: false
                 }}
             />
             <Stack.Screen
@@ -36,7 +61,14 @@ const AppNavigation = () => (
                 component={TransactionScreen}
                 options={{
                     title: 'Transaction List Page',
-                    headerLeft: null
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
+                name="DetailTransaction"
+                component={DetailTransactionScreen}
+                options={{
+                    title: 'Detail Transaction'
                 }}
             />
         </Stack.Navigator>

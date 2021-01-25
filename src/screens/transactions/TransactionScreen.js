@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, FlatList, Modal, View } from 'react-native';
+import { StyleSheet, FlatList, Modal, View } from 'react-native';
 import RadioButton from '../../components/RadioButton';
 import Search from '../../components/Search';
 import CardTransaction from './CardTransactions';
 import { getTransactions } from './TransactionService';
 import { sortTrx } from '../../utils';
 import { sortList } from '../../utils/constants'
+import MyHeader from '../../components/MyHeader';
 
 const TransactionScreen = (props) => {
 
@@ -64,37 +65,40 @@ const TransactionScreen = (props) => {
     })
 
     return (
-        <SafeAreaView style={styles.container}>
-            <Search
-                handleSearchInput={handleSearchInput}
-                handleSort={handleModalVisible} />
-            <FlatList
-                data={newTrx}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                style={{ padding: 10 }}
-            />
+        <>
+            <MyHeader title={'Transactions'} leftIcon={null} />
+            <View style={styles.container}>
+                <Search
+                    handleSearchInput={handleSearchInput}
+                    handleSort={handleModalVisible} />
+                <FlatList
+                    data={newTrx}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                    style={{ padding: 10 }}
+                />
 
-            <Modal
-                visible={modalVisible}
-                onDismiss={handleModalVisible}
-                transparent={true}
-                onRequestClose={handleModalVisible}
-                onMagicTap={handleModalVisible}
-                animationType={'fade'}
-            >
-                <View style={styles.modal}>
-                    <View style={styles.modalContainer}>
-                        <RadioButton
-                            data={sortBy}
-                            styles={{ paddingVertical: 16 }}
-                            selectedColor='orange'
-                            unselectedColor='white'
-                            handleSelectedSort={handleSelectedSort} />
+                <Modal
+                    visible={modalVisible}
+                    onDismiss={handleModalVisible}
+                    transparent={true}
+                    onRequestClose={handleModalVisible}
+                    onMagicTap={handleModalVisible}
+                    animationType={'fade'}
+                >
+                    <View style={styles.modal}>
+                        <View style={styles.modalContainer}>
+                            <RadioButton
+                                data={sortBy}
+                                styles={{ paddingVertical: 16 }}
+                                selectedColor='orange'
+                                unselectedColor='white'
+                                handleSelectedSort={handleSelectedSort} />
+                        </View>
                     </View>
-                </View>
-            </Modal>
-        </SafeAreaView>
+                </Modal>
+            </View>
+        </>
     );
 }
 
