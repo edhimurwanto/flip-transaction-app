@@ -24,8 +24,17 @@ It will installing your project dependencies, wait until installation complete.
 npm run android
 ```
 
-#### iOS ( Not implemented yet.)
+#### iOS
 
+To run on iOS simulator please checkout to branch dev/ios
+
+```
+cd ios && pod install
+
+cd ..
+
+npm run ios
+```
 ## Authors
 
 * **@edhi.uchiha** - *Initial work* - [https://github.com/edhiuchiha](https://github.com/edhiuchiha)
